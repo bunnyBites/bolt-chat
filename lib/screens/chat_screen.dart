@@ -2,13 +2,13 @@ import 'package:bolt_chat/constants.dart';
 import 'package:flutter/material.dart';
 
 class _ChatScreenState extends StatefulWidget {
-  const _ChatScreenState({super.key});
+  const _ChatScreenState();
 
   @override
-  State<_ChatScreenState> createState() => __ChatScreenStateState();
+  State<_ChatScreenState> createState() => ChatScreenStateState();
 }
 
-class __ChatScreenStateState extends State<_ChatScreenState> {
+class ChatScreenStateState extends State<_ChatScreenState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +57,6 @@ class __ChatScreenStateState extends State<_ChatScreenState> {
           ],
         ),
       ),
-    );;
+    );
   }
 }
