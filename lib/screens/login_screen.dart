@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+  static const id = "login_screen";
 
   @override
   LoginScreenState createState() => LoginScreenState();
@@ -11,6 +12,16 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          iconSize: 20.0,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -18,9 +29,12 @@ class LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 200.0,
-              child: Image.asset('images/logo.png'),
+            Hero(
+              tag: "flashHero",
+              child: SizedBox(
+                height: 200.0,
+                child: Image.asset('images/logo.png'),
+              ),
             ),
             const SizedBox(
               height: 48.0,

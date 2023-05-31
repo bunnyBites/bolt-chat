@@ -1,14 +1,15 @@
 import 'package:bolt_chat/constants.dart';
 import 'package:flutter/material.dart';
 
-class _ChatScreenState extends StatefulWidget {
-  const _ChatScreenState();
+class ChatScreenState extends StatefulWidget {
+  const ChatScreenState({super.key});
+  static const id = "chat_screen";
 
   @override
-  State<_ChatScreenState> createState() => ChatScreenStateState();
+  State<ChatScreenState> createState() => ChatScreenStateState();
 }
 
-class ChatScreenStateState extends State<_ChatScreenState> {
+class ChatScreenStateState extends State<ChatScreenState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

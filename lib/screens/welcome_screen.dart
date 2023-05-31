@@ -1,13 +1,15 @@
+import 'package:bolt_chat/screens/login_screen.dart';
+import 'package:bolt_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  WelcomeScreenState createState() => WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,14 +22,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                SizedBox(
-                  height: 60.0,
-                  child: Image.asset('images/logo.png'),
+                Hero(
+                  tag: "flashHero",
+                  child: SizedBox(
+                    height: 60.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
                 const Text(
                   'Flash Chat',
                   style: TextStyle(
                     fontSize: 45.0,
+                    color: Colors.black,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -45,6 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to login screen.
+                    Navigator.pushNamed(context, LoginScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,
@@ -63,6 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to registration screen.
+                    Navigator.pushNamed(context, RegistrationScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,
