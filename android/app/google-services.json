@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "200830040243",
+    "project_id": "bolt-chat-85eec",
+    "storage_bucket": "bolt-chat-85eec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200830040243:android:e3086aee40e5c0e6d718c6",
+        "android_client_info": {
+          "package_name": "com.bunnyBites.bolt_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200830040243-nv8sdo1pvc0c2bbft6ulc65ct780n9a8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjAWZri_ttZ3sZA7HJPBLtnRaAkWSzXL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200830040243-nv8sdo1pvc0c2bbft6ulc65ct780n9a8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

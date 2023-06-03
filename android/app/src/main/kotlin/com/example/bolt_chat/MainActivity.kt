@@ -1,4 +1,4 @@
-package com.example.bolt_chat
+package com.bunnyBites.bolt_chat
 
 import io.flutter.embedding.android.FlutterActivity
 
