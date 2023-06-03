@@ -1,3 +1,4 @@
+import 'package:bolt_chat/components/styled_rounded_button.dart';
 import 'package:bolt_chat/screens/login_screen.dart';
 import 'package:bolt_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -20,20 +21,12 @@ class WelcomeScreenState extends State<WelcomeScreen>
     _controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _animation = ColorTween(begin: Colors.blueAccent[50], end: Colors.white)
+        .animate(_controller);
 
     _controller.forward();
 
-    _animation.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _controller.reverse(from: 1.0);
-      } else if (status == AnimationStatus.dismissed) {
-        _controller.forward();
-      }
-    });
-
     _controller.addListener(() {
-      print(_controller.value);
       setState(() {});
     });
   }
@@ -47,7 +40,7 @@ class WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: _animation.value,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -76,44 +69,21 @@ class WelcomeScreenState extends State<WelcomeScreen>
             const SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to login screen.
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: const Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            StyledRoundedButton(
+              onPressed: () {
+                //Go to login screen.
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+              color: Colors.lightBlueAccent,
+              label: "Log In",
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
+            StyledRoundedButton(
                 color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    //Go to registration screen.
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: const Text(
-                    'Register',
-                  ),
-                ),
-              ),
-            ),
+                onPressed: () {
+                  //Go to registration screen.
+                  Navigator.pushNamed(context, RegistrationScreen.id);
+                },
+                label: 'Register'),
           ],
         ),
       ),
