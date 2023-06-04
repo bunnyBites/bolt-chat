@@ -22,8 +22,6 @@ class ChatScreenStateState extends State<ChatScreenState> {
 
   void getCurrentUser() {
     currentLoggedInUser = _auth.currentUser!;
-
-    print(currentLoggedInUser.email);
   }
 
   @override
@@ -35,7 +33,8 @@ class ChatScreenStateState extends State<ChatScreenState> {
           IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
-                //Implement logout functionality
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: const Text('⚡️Chat'),
