@@ -8,12 +8,12 @@ import 'package:flutter/material.dart';
 Future<void> main () async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const FlashChat());
+  runApp(const BoltChat());
 }
 
 
-class FlashChat extends StatelessWidget {
-  const FlashChat({super.key});
+class BoltChat extends StatelessWidget {
+  const BoltChat({super.key});
 
   @override
   Widget build(BuildContext context) {

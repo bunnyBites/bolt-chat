@@ -50,14 +50,14 @@ class WelcomeScreenState extends State<WelcomeScreen>
             Row(
               children: <Widget>[
                 Hero(
-                  tag: "flashHero",
+                  tag: "boltHero",
                   child: SizedBox(
                     height: (_controller.value * 100),
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
                 const Text(
-                  'Flash Chat',
+                  'Bolt Chat',
                   style: TextStyle(
                     fontSize: 45.0,
                     color: Colors.black,
