@@ -1,5 +1,7 @@
 import 'package:bolt_chat/components/styled_rounded_button.dart';
 import 'package:bolt_chat/constants.dart';
+import 'package:bolt_chat/screens/chat_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -11,6 +13,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
+  late String email;
+  late String password;
+
+  final _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +39,12 @@ class LoginScreenState extends State<LoginScreen> {
               height: 48.0,
             ),
             TextField(
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.emailAddress,
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  email = value;
+                });
               },
               style: const TextStyle(color: Colors.black),
               decoration:
@@ -43,8 +54,12 @@ class LoginScreenState extends State<LoginScreen> {
               height: 8.0,
             ),
             TextField(
+              textAlign: TextAlign.center,
+              obscureText: true,
               onChanged: (value) {
-                //Do something with the user input.
+                setState(() {
+                  password = value;
+                });
               },
               style: const TextStyle(color: Colors.black),
               decoration: kTextFieldDecoration.copyWith(
@@ -54,7 +69,17 @@ class LoginScreenState extends State<LoginScreen> {
               height: 24.0,
             ),
             StyledRoundedButton(
-                color: Colors.lightBlueAccent, onPressed: () {}, label: 'Log In')
+              color: Colors.lightBlueAccent,
+              onPressed: () {
+                _auth
+                    .signInWithEmailAndPassword(
+                        email: email, password: password)
+                    .then((user) =>
+                        {Navigator.pushNamed(context, ChatScreenState.id)})
+                    .catchError((err) => print(err));
+              },
+              label: 'Log In',
+            )
           ],
         ),
       ),
