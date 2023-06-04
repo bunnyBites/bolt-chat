@@ -1,4 +1,5 @@
 import 'package:bolt_chat/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreenState extends StatefulWidget {
@@ -10,6 +11,21 @@ class ChatScreenState extends StatefulWidget {
 }
 
 class ChatScreenStateState extends State<ChatScreenState> {
+  final _auth = FirebaseAuth.instance;
+  late User currentLoggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() {
+    currentLoggedInUser = _auth.currentUser!;
+
+    print(currentLoggedInUser.email);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
