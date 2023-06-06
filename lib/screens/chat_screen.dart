@@ -1,6 +1,6 @@
-import 'package:bolt_chat/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bolt_chat/constants.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreenState extends StatefulWidget {
@@ -15,8 +15,8 @@ class ChatScreenStateState extends State<ChatScreenState> {
   final _auth = FirebaseAuth.instance;
   final TextEditingController _controller = TextEditingController();
   final _fireStore = FirebaseFirestore.instance;
-  late User currentLoggedInUser;
 
+  late User currentLoggedInUser;
   String messageText = "";
 
   @override
@@ -28,20 +28,6 @@ class ChatScreenStateState extends State<ChatScreenState> {
   void getCurrentUser() {
     currentLoggedInUser = _auth.currentUser!;
   }
-
-  // void getMessages() {
-  //   _fireStore.collection('messages').get().then((documents) => {
-  //         for (var document in documents.docs) {print(document.data())}
-  //       });
-  // }
-
-  // void getRealtimeMessages() {
-  //   _fireStore.collection('messages').snapshots().forEach((element) {
-  //     for (var doc in element.docs) {
-  //       print(doc.data());
-  //     }
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,17 +52,21 @@ class ChatScreenStateState extends State<ChatScreenState> {
           children: <Widget>[
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _fireStore.collection('messages').snapshots(),
+                stream: _fireStore
+                    .collection('messages')
+                    .orderBy('key')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) return Container();
 
                   return ListView(
+                    reverse: true,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 15.0),
-                    children: snapshot.data!.docs.map((e) {
+                    children: snapshot.data!.docs.reversed.map((e) {
                       dynamic currentDocumentObj = e.data();
 
-                      return chatView(
+                      return messageInput(
                         currentDocumentObj['email'],
                         currentDocumentObj['text'],
                       );
@@ -107,10 +97,15 @@ class ChatScreenStateState extends State<ChatScreenState> {
                       //Implement send functionality.
                       _controller.clear();
                       if (messageText.isNotEmpty) {
-                        _fireStore.collection('messages').add({
-                          'text': messageText,
-                          'email': currentLoggedInUser.email,
-                        });
+                        _fireStore.collection('messages').count().get().then(
+                              (value) => {
+                                _fireStore.collection('messages').add({
+                                  'text': messageText,
+                                  'email': currentLoggedInUser.email,
+                                  'key': (value.count + 1),
+                                })
+                              },
+                            );
                       }
                     },
                     child: const Text(
@@ -127,11 +122,14 @@ class ChatScreenStateState extends State<ChatScreenState> {
     );
   }
 
-  Padding chatView(String email, String text) {
+  Padding messageInput(String email, String text) {
+    final bool isSenderMe = (currentLoggedInUser.email == email);
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment:
+            (isSenderMe ? CrossAxisAlignment.end : CrossAxisAlignment.start),
         children: [
           Text(
             email,
@@ -141,14 +139,22 @@ class ChatScreenStateState extends State<ChatScreenState> {
             ),
           ),
           Material(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: kMessageBubbleBorder.copyWith(
+              topLeft: (isSenderMe
+                  ? kCircularBorderRadius
+                  : const Radius.circular(0)),
+              topRight: (isSenderMe
+                  ? const Radius.circular(0)
+                  : kCircularBorderRadius),
+            ),
             elevation: 5.0,
-            color: Colors.blue,
+            color: (isSenderMe ? Colors.lightBlueAccent : Colors.white),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(text,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20.0,
+                    color: (isSenderMe ? Colors.white : Colors.black54),
                   )),
             ),
           )
