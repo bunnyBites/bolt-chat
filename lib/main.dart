@@ -18,7 +18,7 @@ class BoltChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData.dark().copyWith(
+      theme: ThemeData.light().copyWith(
         textTheme: const TextTheme(
           bodySmall: TextStyle(color: Colors.black54),
         ),

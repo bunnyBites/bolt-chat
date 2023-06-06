@@ -13,6 +13,7 @@ class ChatScreenState extends StatefulWidget {
 
 class ChatScreenStateState extends State<ChatScreenState> {
   final _auth = FirebaseAuth.instance;
+  final TextEditingController _controller = TextEditingController();
   final _fireStore = FirebaseFirestore.instance;
   late User currentLoggedInUser;
 
@@ -28,19 +29,19 @@ class ChatScreenStateState extends State<ChatScreenState> {
     currentLoggedInUser = _auth.currentUser!;
   }
 
-  void getMessages() {
-    _fireStore.collection('messages').get().then((documents) => {
-          for (var document in documents.docs) {print(document.data())}
-        });
-  }
+  // void getMessages() {
+  //   _fireStore.collection('messages').get().then((documents) => {
+  //         for (var document in documents.docs) {print(document.data())}
+  //       });
+  // }
 
-  void getRealtimeMessages() {
-    _fireStore.collection('messages').snapshots().forEach((element) {
-      for (var doc in element.docs) {
-        print(doc.data());
-      }
-    });
-  }
+  // void getRealtimeMessages() {
+  //   _fireStore.collection('messages').snapshots().forEach((element) {
+  //     for (var doc in element.docs) {
+  //       print(doc.data());
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,8 @@ class ChatScreenStateState extends State<ChatScreenState> {
           IconButton(
               icon: const Icon(Icons.close),
               onPressed: () {
-                // _auth.signOut();
-                // Navigator.pop(context);
-
-                getRealtimeMessages();
-                // getMessages();
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: const Text('⚡️Chat'),
@@ -70,19 +68,18 @@ class ChatScreenStateState extends State<ChatScreenState> {
               child: StreamBuilder<QuerySnapshot>(
                 stream: _fireStore.collection('messages').snapshots(),
                 builder: (context, snapshot) {
+                  if (snapshot.hasError) return Container();
+
                   return ListView(
                     padding: const EdgeInsets.symmetric(
                         vertical: 12.0, horizontal: 15.0),
                     children: snapshot.data!.docs.map((e) {
                       dynamic currentDocumentObj = e.data();
-                      if (currentDocumentObj != null) {
-                        return Text(
-                          currentDocumentObj['email'],
-                          style: const TextStyle(fontSize: 15),
-                        );
-                      }
 
-                      return Container();
+                      return chatView(
+                        currentDocumentObj['email'],
+                        currentDocumentObj['text'],
+                      );
                     }).toList(),
                   );
                 },
@@ -95,21 +92,26 @@ class ChatScreenStateState extends State<ChatScreenState> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: _controller,
                       onChanged: (value) {
                         setState(() {
                           messageText = value;
                         });
                       },
                       decoration: kMessageTextFieldDecoration,
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                   TextButton(
                     onPressed: () {
                       //Implement send functionality.
-                      _fireStore.collection('messages').add({
-                        'text': messageText,
-                        'email': currentLoggedInUser.email,
-                      });
+                      _controller.clear();
+                      if (messageText.isNotEmpty) {
+                        _fireStore.collection('messages').add({
+                          'text': messageText,
+                          'email': currentLoggedInUser.email,
+                        });
+                      }
                     },
                     child: const Text(
                       'Send',
@@ -121,6 +123,36 @@ class ChatScreenStateState extends State<ChatScreenState> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Padding chatView(String email, String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Text(
+            email,
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.black54,
+            ),
+          ),
+          Material(
+            borderRadius: BorderRadius.circular(30.0),
+            elevation: 5.0,
+            color: Colors.blue,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(text,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                  )),
+            ),
+          )
+        ],
       ),
     );
   }
