@@ -19,7 +19,7 @@ class StyledRoundedButton extends StatelessWidget {
       child: Material(
         elevation: 5.0,
         color: color,
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(15),
         child: MaterialButton(
           onPressed: () {
             onPressed();

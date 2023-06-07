@@ -44,56 +44,65 @@ class WelcomeScreenState extends State<WelcomeScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: _animation.value,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Row(children: <Widget>[
-              Hero(
-                tag: "boltHero",
-                child: SizedBox(
-                  height: 80,
-                  child: Image.asset('images/logo.png'),
+      body: Container(
+        constraints: const BoxConstraints.expand(),
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("images/background.jpg"),
+              opacity: 0.2,
+              fit: BoxFit.cover),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Row(children: <Widget>[
+                Hero(
+                  tag: "boltHero",
+                  child: SizedBox(
+                    height: 80,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
-              ),
-              Text(
-                'Bolt ',
-                style: kBannerTextStyle.copyWith(color: kTextColor),
-              ),
-              DefaultTextStyle(
-                style: kBannerTextStyle,
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    WavyAnimatedText('Chat'),
-                  ],
-                  isRepeatingAnimation: true,
-                  onTap: () {
-                    print("Tap Event");
-                  },
+                Text(
+                  'Bolt ',
+                  style: kBannerTextStyle.copyWith(color: kTextColor),
                 ),
+                DefaultTextStyle(
+                  style: kBannerTextStyle,
+                  child: AnimatedTextKit(
+                    animatedTexts: [
+                      WavyAnimatedText('Chat'),
+                    ],
+                    isRepeatingAnimation: true,
+                    onTap: () {
+                      print("Tap Event");
+                    },
+                  ),
+                ),
+              ]),
+              const SizedBox(
+                height: 88.0,
               ),
-            ]),
-            const SizedBox(
-              height: 88.0,
-            ),
-            StyledRoundedButton(
-              onPressed: () {
-                //Go to login screen.
-                Navigator.pushNamed(context, LoginScreen.id);
-              },
-              color: kLoginButtonColor,
-              label: "Log In",
-            ),
-            StyledRoundedButton(
-                color: kRegisterButtonColor,
+              StyledRoundedButton(
                 onPressed: () {
-                  //Go to registration screen.
-                  Navigator.pushNamed(context, RegistrationScreen.id);
+                  //Go to login screen.
+                  Navigator.pushNamed(context, LoginScreen.id);
                 },
-                label: 'Register'),
-          ],
+                color: kLoginButtonColor,
+                label: "Log In",
+              ),
+              StyledRoundedButton(
+                  color: kRegisterButtonColor,
+                  onPressed: () {
+                    //Go to registration screen.
+                    Navigator.pushNamed(context, RegistrationScreen.id);
+                  },
+                  label: 'Register'),
+            ],
+          ),
         ),
       ),
     );

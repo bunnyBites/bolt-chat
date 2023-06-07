@@ -26,75 +26,84 @@ class LoginScreenState extends State<LoginScreen> {
       backgroundColor: kScaffoldBackgroundColor,
       body: ModalProgressHUD(
         inAsyncCall: isShowModal,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Hero(
-                tag: "boltHero",
-                child: SizedBox(
-                  height: 200.0,
-                  child: Image.asset('images/logo.png'),
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/background.jpg"),
+                opacity: 0.2,
+                fit: BoxFit.cover),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Hero(
+                  tag: "boltHero",
+                  child: SizedBox(
+                    height: 200.0,
+                    child: Image.asset('images/logo.png'),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 48.0,
-              ),
-              TextField(
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-                style: const TextStyle(color: Colors.black),
-                decoration:
-                    kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
-              ),
-              const SizedBox(
-                height: 8.0,
-              ),
-              TextField(
-                textAlign: TextAlign.center,
-                obscureText: true,
-                onChanged: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-                style: const TextStyle(color: Colors.black),
-                decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'Enter your password'),
-              ),
-              const SizedBox(
-                height: 24.0,
-              ),
-              StyledRoundedButton(
-                color: kLoginButtonColor,
-                onPressed: () {
-                  setState(() {
-                    isShowModal = true;
-                  });
-                  _auth
-                      .signInWithEmailAndPassword(
-                          email: email, password: password)
-                      .then((user) =>
-                          {Navigator.pushNamed(context, ChatScreenState.id)})
-                      .catchError((err) => print(err))
-                      .whenComplete(
-                        () => setState(
-                          () {
-                            isShowModal = false;
-                          },
-                        ),
-                      );
-                },
-                label: 'Log In',
-              )
-            ],
+                const SizedBox(
+                  height: 48.0,
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (value) {
+                    setState(() {
+                      email = value;
+                    });
+                  },
+                  style: const TextStyle(color: Colors.black),
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your email'),
+                ),
+                const SizedBox(
+                  height: 8.0,
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  obscureText: true,
+                  onChanged: (value) {
+                    setState(() {
+                      password = value;
+                    });
+                  },
+                  style: const TextStyle(color: Colors.black),
+                  decoration: kTextFieldDecoration.copyWith(
+                      hintText: 'Enter your password'),
+                ),
+                const SizedBox(
+                  height: 24.0,
+                ),
+                StyledRoundedButton(
+                  color: kLoginButtonColor,
+                  onPressed: () {
+                    setState(() {
+                      isShowModal = true;
+                    });
+                    _auth
+                        .signInWithEmailAndPassword(
+                            email: email, password: password)
+                        .then((user) =>
+                            {Navigator.pushNamed(context, ChatScreenState.id)})
+                        .catchError((err) => print(err))
+                        .whenComplete(
+                          () => setState(
+                            () {
+                              isShowModal = false;
+                            },
+                          ),
+                        );
+                  },
+                  label: 'Log In',
+                )
+              ],
+            ),
           ),
         ),
       ),
