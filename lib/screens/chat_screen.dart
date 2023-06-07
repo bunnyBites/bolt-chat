@@ -47,77 +47,85 @@ class ChatScreenStateState extends State<ChatScreenState> {
         backgroundColor: kTextColor,
       ),
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _fireStore
-                    .collection('messages')
-                    .orderBy('key')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) return Container();
+        child: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/chat_background.jpg"),
+                opacity: 0.2,
+                fit: BoxFit.cover),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: _fireStore
+                      .collection('messages')
+                      .orderBy('key')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) return Container();
+                    return ListView(
+                      reverse: true,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 15.0),
+                      children: snapshot.data!.docs.reversed.map((e) {
+                        dynamic currentDocumentObj = e.data();
 
-                  return ListView(
-                    reverse: true,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12.0, horizontal: 15.0),
-                    children: snapshot.data!.docs.reversed.map((e) {
-                      dynamic currentDocumentObj = e.data();
-
-                      return messageInput(
-                        currentDocumentObj['email'],
-                        currentDocumentObj['text'],
-                      );
-                    }).toList(),
-                  );
-                },
+                        return messageInput(
+                          currentDocumentObj['email'],
+                          currentDocumentObj['text'],
+                        );
+                      }).toList(),
+                    );
+                  },
+                ),
               ),
-            ),
-            Container(
-              decoration: kMessageContainerDecoration,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      onChanged: (value) {
-                        setState(() {
-                          messageText = value;
-                        });
+              Container(
+                decoration: kMessageContainerDecoration,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: _controller,
+                        onChanged: (value) {
+                          setState(() {
+                            messageText = value;
+                          });
+                        },
+                        decoration: kMessageTextFieldDecoration,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        //Implement send functionality.
+                        _controller.clear();
+                        if (messageText.isNotEmpty) {
+                          _fireStore.collection('messages').count().get().then(
+                                (value) => {
+                                  _fireStore.collection('messages').add({
+                                    'text': messageText,
+                                    'email': currentLoggedInUser.email,
+                                    'key': (value.count + 1),
+                                  })
+                                },
+                              );
+                        }
                       },
-                      decoration: kMessageTextFieldDecoration,
-                      style: const TextStyle(color: Colors.white),
+                      child: const Text(
+                        'Send',
+                        style: kSendButtonTextStyle,
+                      ),
                     ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      //Implement send functionality.
-                      _controller.clear();
-                      if (messageText.isNotEmpty) {
-                        _fireStore.collection('messages').count().get().then(
-                              (value) => {
-                                _fireStore.collection('messages').add({
-                                  'text': messageText,
-                                  'email': currentLoggedInUser.email,
-                                  'key': (value.count + 1),
-                                })
-                              },
-                            );
-                      }
-                    },
-                    child: const Text(
-                      'Send',
-                      style: kSendButtonTextStyle,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
