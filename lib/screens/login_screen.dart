@@ -23,7 +23,7 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kScaffoldBackgroundColor,
       body: ModalProgressHUD(
         inAsyncCall: isShowModal,
         child: Padding(
@@ -73,7 +73,7 @@ class LoginScreenState extends State<LoginScreen> {
                 height: 24.0,
               ),
               StyledRoundedButton(
-                color: Colors.lightBlueAccent,
+                color: kLoginButtonColor,
                 onPressed: () {
                   setState(() {
                     isShowModal = true;

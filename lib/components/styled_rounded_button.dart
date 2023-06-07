@@ -32,7 +32,7 @@ class StyledRoundedButton extends StatelessWidget {
               fontSize: 17.0,
               fontWeight: FontWeight.bold,
               letterSpacing: 1,
-              color: Colors.black54,
+              color: Colors.black,
             ),
           ),
         ),

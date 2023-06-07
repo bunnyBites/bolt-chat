@@ -23,7 +23,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kScaffoldBackgroundColor,
       body: ModalProgressHUD(
         inAsyncCall: isShowModal,
         child: Padding(
@@ -45,6 +45,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               TextField(
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.emailAddress,
+                
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -73,7 +74,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 height: 24.0,
               ),
               StyledRoundedButton(
-                color: Colors.blueAccent,
+                color: kRegisterButtonColor,
                 onPressed: () {
                   setState(() {
                     isShowModal = true;

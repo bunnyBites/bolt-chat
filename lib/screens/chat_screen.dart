@@ -32,6 +32,7 @@ class ChatScreenStateState extends State<ChatScreenState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kScaffoldBackgroundColor,
       appBar: AppBar(
         leading: null,
         actions: <Widget>[
@@ -43,7 +44,7 @@ class ChatScreenStateState extends State<ChatScreenState> {
               }),
         ],
         title: const Text('⚡️Chat'),
-        backgroundColor: Colors.lightBlueAccent,
+        backgroundColor: kTextColor,
       ),
       body: SafeArea(
         child: Column(
@@ -89,7 +90,7 @@ class ChatScreenStateState extends State<ChatScreenState> {
                         });
                       },
                       decoration: kMessageTextFieldDecoration,
-                      style: const TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                   TextButton(
@@ -133,9 +134,9 @@ class ChatScreenStateState extends State<ChatScreenState> {
         children: [
           Text(
             email,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: Colors.black54,
+              color: Colors.blue[100],
             ),
           ),
           Material(
@@ -148,13 +149,14 @@ class ChatScreenStateState extends State<ChatScreenState> {
                   : kCircularBorderRadius),
             ),
             elevation: 5.0,
-            color: (isSenderMe ? Colors.lightBlueAccent : Colors.white),
+            color: (isSenderMe ? Colors.deepPurple[300] : kRegisterButtonColor),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(text,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: (isSenderMe ? Colors.white : Colors.black54),
+                  style: const TextStyle(
+                    fontSize: 17.0,
+                    // letterSpacing: 1,
+                    color: Colors.black,
                   )),
             ),
           )

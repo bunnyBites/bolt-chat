@@ -24,7 +24,7 @@ class WelcomeScreenState extends State<WelcomeScreen>
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
     _animation =
-        ColorTween(begin: Colors.blueAccent[50], end: const Color(0xFF262449))
+        ColorTween(begin: Colors.blueAccent[50], end: kScaffoldBackgroundColor)
             .animate(_controller);
 
     _controller.forward();
@@ -83,11 +83,11 @@ class WelcomeScreenState extends State<WelcomeScreen>
                 //Go to login screen.
                 Navigator.pushNamed(context, LoginScreen.id);
               },
-              color: const Color(0xFFBD95FF),
+              color: kLoginButtonColor,
               label: "Log In",
             ),
             StyledRoundedButton(
-                color: const Color(0xFFB5E3FF),
+                color: kRegisterButtonColor,
                 onPressed: () {
                   //Go to registration screen.
                   Navigator.pushNamed(context, RegistrationScreen.id);
