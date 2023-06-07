@@ -1,4 +1,6 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bolt_chat/components/styled_rounded_button.dart';
+import 'package:bolt_chat/constants.dart';
 import 'package:bolt_chat/screens/login_screen.dart';
 import 'package:bolt_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,9 @@ class WelcomeScreenState extends State<WelcomeScreen>
     _controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 1));
 
-    _animation = ColorTween(begin: Colors.blueAccent[50], end: Colors.white)
-        .animate(_controller);
+    _animation =
+        ColorTween(begin: Colors.blueAccent[50], end: const Color(0xFF262449))
+            .animate(_controller);
 
     _controller.forward();
 
@@ -47,38 +50,44 @@ class WelcomeScreenState extends State<WelcomeScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Hero(
-                  tag: "boltHero",
-                  child: SizedBox(
-                    height: (_controller.value * 100),
-                    child: Image.asset('images/logo.png'),
-                  ),
+            Row(children: <Widget>[
+              Hero(
+                tag: "boltHero",
+                child: SizedBox(
+                  height: 80,
+                  child: Image.asset('images/logo.png'),
                 ),
-                const Text(
-                  'Bolt Chat',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
+              ),
+              Text(
+                'Bolt ',
+                style: kBannerTextStyle.copyWith(color: kTextColor),
+              ),
+              DefaultTextStyle(
+                style: kBannerTextStyle,
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    WavyAnimatedText('Chat'),
+                  ],
+                  isRepeatingAnimation: true,
+                  onTap: () {
+                    print("Tap Event");
+                  },
                 ),
-              ],
-            ),
+              ),
+            ]),
             const SizedBox(
-              height: 48.0,
+              height: 88.0,
             ),
             StyledRoundedButton(
               onPressed: () {
                 //Go to login screen.
                 Navigator.pushNamed(context, LoginScreen.id);
               },
-              color: Colors.lightBlueAccent,
+              color: const Color(0xFFBD95FF),
               label: "Log In",
             ),
             StyledRoundedButton(
-                color: Colors.blueAccent,
+                color: const Color(0xFFB5E3FF),
                 onPressed: () {
                   //Go to registration screen.
                   Navigator.pushNamed(context, RegistrationScreen.id);

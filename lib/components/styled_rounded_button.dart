@@ -8,7 +8,7 @@ class StyledRoundedButton extends StatelessWidget {
     required this.label,
   });
 
-  final MaterialAccentColor color;
+  final dynamic color;
   final Function onPressed;
   final String label;
 
@@ -19,15 +19,21 @@ class StyledRoundedButton extends StatelessWidget {
       child: Material(
         elevation: 5.0,
         color: color,
-        borderRadius: BorderRadius.circular(30.0),
+        borderRadius: BorderRadius.circular(30),
         child: MaterialButton(
           onPressed: () {
             onPressed();
           },
           minWidth: 200.0,
-          height: 42.0,
+          height: 60.0,
           child: Text(
             label,
+            style: const TextStyle(
+              fontSize: 17.0,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1,
+              color: Colors.black54,
+            ),
           ),
         ),
       ),

@@ -34,6 +34,13 @@ const kTextFieldDecoration = InputDecoration(
   ),
 );
 
+const kTextColor = Color(0xFF7D6EA0);
+const kBannerTextStyle = TextStyle(
+  fontSize: 45.0,
+  color: Colors.white,
+  fontWeight: FontWeight.w900,
+);
+
 const kCircularBorderRadius = Radius.circular(20);
 
 const kMessageBubbleBorder = BorderRadius.only(
